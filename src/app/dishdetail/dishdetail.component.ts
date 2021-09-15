@@ -7,8 +7,8 @@ import { Dishes } from '../shared/sdk/models';
 import { DishesApi } from '../shared/sdk/services';
 import { Comments } from '../shared/sdk/models';
 import { CommentsApi } from '../shared/sdk/services';
-import { Favorite } from '../shared/sdk/models';
-import { FavoriteApi } from '../shared/sdk/services';
+import { Favorites } from '../shared/sdk/models';
+import { FavoritesApi } from '../shared/sdk/services';
 import { Customer } from '../shared/sdk/models';
 import { CustomerApi } from '../shared/sdk/services';
 
@@ -54,7 +54,7 @@ export class DishdetailComponent implements OnInit {
   commentForm: FormGroup;
 
   constructor(private dishservice: DishesApi,
-    private favoriteService: FavoriteApi,
+    private favoriteService: FavoritesApi,
     private commentService: CommentsApi,
     private authService: CustomerApi,
     @Inject('baseURL') private baseURL,
@@ -69,7 +69,7 @@ export class DishdetailComponent implements OnInit {
     this.createForm();
 
     this.route.params.pipe(switchMap((params: Params) => { this.visibility = 'hidden'; return this.dishservice.findById(params['id']); }))
-    .subscribe(dish => {
+    .subscribe((dish: Dishes) => {
       this.dish = dish;
       this.dishservice.getComments(this.dish.id, {'include': ['customer']})
       .subscribe((comments: Comments[]) =>  { this.dish.comments = comments; });

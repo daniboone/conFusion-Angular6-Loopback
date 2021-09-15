@@ -25,7 +25,7 @@ fxLayoutGap="10px">
    <mat-grid-tile-footer>
      <h1 mat-line>{{favorite.dishes.name | uppercase}}</h1>
      <span class="flex-spacer"></span>
-     <button mat-icon-button *ngIf="delete" (click)="deleteFavorite(dish._id)">
+     <button mat-icon-button *ngIf="delete" (click)="deleteFavorite(favorite.id)">
        <span style="color: red;" class="fa fa-times fa-lg"></span>
      </button>
    </mat-grid-tile-footer>

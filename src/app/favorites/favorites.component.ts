@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Favorite } from '../shared/sdk/models';
-import { FavoriteApi } from '../shared/sdk/services';
+import { Favorites } from '../shared/sdk/models';
+import { FavoritesApi } from '../shared/sdk/services';
 import { Customer, AccessToken } from '../shared/sdk/models';
 import { CustomerApi } from '../shared/sdk/services';
 import { flyInOut, expand } from '../animations/app.animation';
@@ -21,12 +21,12 @@ import { flyInOut, expand } from '../animations/app.animation';
 })
 export class FavoritesComponent implements OnInit {
 
-  favorites: Favorite = undefined;
+  favorites: Favorites = undefined;
   customer: Customer = undefined;
   delete: boolean;
   errMess: string;
 
-  constructor(private favoriteService: FavoriteApi,
+  constructor(private favoriteService: FavoritesApi,
     private authService: CustomerApi,
     @Inject('baseURL') private baseURL) { }
 
@@ -34,7 +34,7 @@ export class FavoritesComponent implements OnInit {
     this.customer = this.authService.getCachedCurrent();
     if (this.customer) {
       this.authService.getFavorites(this.customer.id, {'include': ['dishes']})
-        .subscribe((favorites: Favorite) => { console.log(favorites); this.favorites = favorites; },
+        .subscribe((favorites: Favorites) => { console.log(favorites); this.favorites = favorites; },
           errmess => this.errMess = <any>errmess);
     } else {
       this.errMess = 'No User Logged in!';
@@ -45,7 +45,7 @@ export class FavoritesComponent implements OnInit {
     this.favoriteService.deleteById(id)
       .subscribe(() => {
         this.authService.getFavorites(this.customer.id, {'include': ['dishes']})
-        .subscribe((favorites: Favorite) => this.favorites = favorites);
+        .subscribe((favorites: Favorites) => this.favorites = favorites);
       },
         errmess => this.errMess = <any>errmess);
     this.delete = false;
